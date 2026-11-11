@@ -13,23 +13,22 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--black); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif; height: 100vh; overflow: hidden; }
   .app { height: 100%; display: flex; flex-direction: column; }
-  header { padding: 20px 16px 8px; text-align: center; }
-  header h1 { color: var(--gold); font-size: 22px; letter-spacing: 1px; font-weight: 700; }
-  header p { color: #aaa; font-size: 13px; margin-top: 2px; }
+  header { padding: 18px 16px 6px; text-align: center; }
+  header h1 { color: var(--gold); font-size: 20px; letter-spacing: 1px; font-weight: 700; }
+  header p { color: #aaa; font-size: 12px; margin-top: 2px; }
   .tabs { display: flex; border-bottom: 1px solid #222; }
-  .tab { flex: 1; padding: 12px 4px; text-align: center; font-size: 13px; color: #888; cursor: pointer; }
+  .tab { flex: 1; padding: 11px 4px; text-align: center; font-size: 12.5px; color: #888; cursor: pointer; }
   .tab.active { color: var(--gold); border-bottom: 2px solid var(--gold); font-weight: 600; }
-  .content { flex: 1; overflow-y: auto; padding: 12px 16px 80px; }
-  .card { background: var(--card); border-radius: 16px; padding: 16px; margin-bottom: 12px; border: 1px solid #222; }
-  .card h3 { font-size: 16px; margin-bottom: 6px; }
-  .score { color: var(--gold); font-weight: 700; font-size: 15px; }
-  .meta { color: #aaa; font-size: 13px; margin: 4px 0; }
-  button { background: transparent; border: 1px solid var(--gold); color: var(--gold); border-radius: 10px; padding: 10px 14px; width: 100%; font-size: 15px; font-weight: 600; margin-top: 10px; }
+  .content { flex: 1; overflow-y: auto; padding: 12px 16px 90px; }
+  .card { background: var(--card); border-radius: 16px; padding: 15px; margin-bottom: 12px; border: 1px solid #222; }
+  .card h3 { font-size: 15.5px; margin-bottom: 5px; }
+  .score { color: var(--gold); font-weight: 700; font-size: 14px; }
+  .meta { color: #bbb; font-size: 13px; margin: 3px 0; line-height: 1.4; }
+  .link { color: var(--gold); font-size: 13px; text-decoration: none; }
+  button { background: transparent; border: 1px solid var(--gold); color: var(--gold); border-radius: 10px; padding: 10px 14px; width: 100%; font-size: 14.5px; font-weight: 600; margin-top: 10px; }
   button:active { background: var(--gold); color: var(--black); }
-  .pack { background: #1a1a1a; border-radius: 12px; padding: 12px; margin-top: 10px; font-size: 13px; line-height: 1.5; white-space: pre-wrap; border: 1px solid #333; }
-  .bottom { position: fixed; bottom: 0; left: 0; right: 0; background: #0f0f0f; border-top: 1px solid #222; padding: 8px 0 20px; display: flex; justify-content: space-around; }
-  .bottom div { text-align: center; font-size: 11px; color: #888; }
-  .bottom .active { color: var(--gold); }
+  .pack { background: #1a1a1a; border-radius: 12px; padding: 12px; margin-top: 10px; font-size: 12.5px; line-height: 1.45; white-space: pre-wrap; border: 1px solid #333; }
+  .section-note { color: #888; font-size: 12px; margin-bottom: 12px; padding: 0 4px; }
 </style>
 </head>
 <body>
@@ -39,61 +38,86 @@
     <p>Black Lambo · Private</p>
   </header>
   <div class="tabs">
-    <div class="tab active" data-tab="brief">Brief</div>
-    <div class="tab" data-tab="port">Portfolio</div>
-    <div class="tab" data-tab="pipe">Pipeline</div>
+    <div class="tab active" data-tab="businesses">Businesses</div>
+    <div class="tab" data-tab="freemoney">Free Money</div>
   </div>
   <div class="content" id="content"></div>
-  <div class="bottom">
-    <div class="active">Brief</div>
-    <div>Portfolio</div>
-    <div>Pipeline</div>
-  </div>
 </div>
 
 <script>
-const opps = [
-  {id:1, title:"AI-powered local lead generation for trades", track:"portfolio", score:82, portfolio:78, summary:"Build simple sites that capture local service leads and sell them to trades. Marketing Cartel stack handles the site + AI chat.", setup:"12-20 hrs", ongoing:"2-4 hrs/wk", profit:"$8k-$25k", shared:"Marketing Cartel tech, Perth audience"},
-  {id:2, title:"Niche digital product (checklists + templates)", track:"portfolio", score:71, portfolio:74, summary:"Sell downloadable packs to window tinting or trade businesses. Low ongoing once live.", setup:"8-15 hrs", ongoing:"1-2 hrs/wk", profit:"$3k-$12k", shared:"Content engine, email list"},
-  {id:3, title:"Unclaimed money / grant finder service", track:"quick_cash", score:68, portfolio:55, summary:"Help businesses claim government money. Real WA grants exist.", setup:"10 hrs", ongoing:"3 hrs/wk", profit:"$2k-$8k", shared:"Research agents"}
+const businesses = [
+  {id:1, title:"AI-powered local lead generation for trades", score:82, summary:"Simple sites that capture local service leads and sell them to trades. Marketing Cartel builds the site + AI chat + SEO + social.", setup:"12-20 hrs", ongoing:"2-4 hrs/wk", profit:"$8k–$25k /12m", shared:"Marketing Cartel stack, Perth audience"},
+  {id:2, title:"Niche digital product packs (checklists & templates)", score:74, summary:"Sell downloadable packs to window tinting and trade businesses. Low ongoing once live.", setup:"8-15 hrs", ongoing:"1-2 hrs/wk", profit:"$3k–$12k /12m", shared:"Content engine, email list"},
+  {id:3, title:"Micro-SaaS for local service businesses", score:71, summary:"Simple tools (booking, quote calculators, review systems) sold to trades. Self-running after setup.", setup:"20-40 hrs", ongoing:"2-5 hrs/wk", profit:"$5k–$20k /12m", shared:"Tech stack, customer base"},
+  {id:4, title:"Affiliate / referral site for trade supplies", score:68, summary:"Content site that earns commissions on tools, film, equipment. Marketing Cartel runs the content.", setup:"10-20 hrs", ongoing:"1-3 hrs/wk", profit:"$2k–$10k /12m", shared:"SEO engine"}
+];
+
+const freeMoney = [
+  {title:"WA Unclaimed Money (~$190 million on register)", summary:"Search Department of Treasury and Finance register for money owed to you from bonds, refunds, dividends, licences, etc.", link:"https://www.wa.gov.au/service/business-support/business-accounting-and-reporting/unclaimed-money", first:"Search the official register with your name"},
+  {title:"ASIC / Moneysmart Unclaimed Money (~$2.7–3 billion)", summary:"Lost bank accounts, shares, life insurance, company money. Free search and claim. No deadline.", link:"https://moneysmart.gov.au/find-unclaimed-money", first:"Search Moneysmart with your name and past addresses"},
+  {title:"WA Energy Assistance Payment & Dependent Child Rebate", summary:"Annual payments for eligible concession card holders (Health Care, Pensioner, DVA Gold). Also Air Conditioning Rebate in hot areas.", link:"https://www.wa.gov.au/organisation/energy-policy-wa/household-energy-pricing-and-payment-support", first:"Check eligibility with Synergy/Horizon or RevenueWA"},
+  {title:"Hardship Utility Grant Scheme (HUGS)", summary:"Helps pay electricity, gas or water bills if you're in financial hardship so supply isn't cut off.", link:"https://www.wa.gov.au/organisation/department-of-communities/hardship-utility-grant-scheme", first:"Contact your retailer or Department of Communities"},
+  {title:"WA Fuel Support Payment ($100)", summary:"$100 payment to every eligible WA driver's licence holder via ServiceWA (2026-27 Budget).", link:"https://www.wa.gov.au/government/media-statements/Cook%20Labor%20Government/Budget-delivers-cost-of-living-relief-to-Western-Australian-families-20260507", first:"Check ServiceWA app"},
+  {title:"WA Student Assistance Payment", summary:"Third round: $150 per primary/kindergarten student, $250 per secondary student via ServiceWA.", link:"https://www.ourstatebudget.wa.gov.au/2026-27/households.html", first:"Apply via ServiceWA if eligible"},
+  {title:"Department of Communities Grants (currently open)", summary:"Multiple programs open including Age-friendly Communities Connectivity Grants (up to $10k, closes 18 Dec 2026). Full list on SmartyGrants.", link:"https://www.wa.gov.au/organisation/department-of-communities/department-of-communities-grants-programs", first:"Browse open grants on SmartyGrants"},
+  {title:"Pensioner / Seniors Rebates (rates & water)", summary:"Up to 50% rebate on local government rates and water service charges for eligible pensioners and seniors.", link:"https://www.wa.gov.au/organisation/department-of-communities/concessions-available-western-australia", first:"Apply through Water Corporation and your local council"},
+  {title:"Current Class Actions (Australia)", summary:"Ford transmission defects (Ranger/Everest etc 2018–2026), Fortescue sex discrimination, ADF sex discrimination, IVF Medicare rebates, various data breach and consumer claims. Check eligibility and deadlines.", link:"https://jgasaddler.com.au/actions", first:"Review current actions and opt-in if eligible"},
+  {title:"First Home Owner Grant & Stamp Duty Relief", summary:"One-off payment for eligible first home buyers plus stamp duty concessions in WA.", link:"https://www.wa.gov.au/organisation/department-of-finance/first-home-owner-grant", first:"Check eligibility on Department of Finance site"},
+  {title:"KidSport Vouchers & other family assistance", summary:"$300 KidSport vouchers extended. Also free TAFE, transport concessions, rent relief programs.", link:"https://www.wa.gov.au/organisation/department-of-communities/concessions-available-western-australia", first:"Search WA concessions page for your situation"}
 ];
 
 function render(tab) {
   const c = document.getElementById('content');
   c.innerHTML = '';
-  const list = tab === 'port' ? opps.filter(o => o.track === 'portfolio') : opps;
-  list.forEach(o => {
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.innerHTML = `
-      <h3>${o.title}</h3>
-      <div class="score">Score ${tab==='port' ? o.portfolio : o.score}</div>
-      <div class="meta">${o.summary}</div>
-      <div class="meta">Setup: ${o.setup} · Ongoing: ${o.ongoing} · 12m: ${o.profit}</div>
-      <div class="meta">Shared: ${o.shared}</div>
-      <button onclick="launch(${o.id})">🚀 Launch → Marketing Cartel</button>
-      <div id="pack${o.id}"></div>
-    `;
-    c.appendChild(card);
-  });
+  if (tab === 'businesses') {
+    c.innerHTML = '<p class="section-note">Multiple easy online businesses found daily. Launch button sends the full build pack to Marketing Cartel only. Nothing goes live without your yes.</p>';
+    businesses.forEach(o => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <h3>${o.title}</h3>
+        <div class="score">Portfolio score ${o.score}</div>
+        <div class="meta">${o.summary}</div>
+        <div class="meta">Setup: ${o.setup} · Ongoing: ${o.ongoing}</div>
+        <div class="meta">12-month: ${o.profit}</div>
+        <div class="meta">Shared: ${o.shared}</div>
+        <button onclick="launch(${o.id})">🚀 Launch → Marketing Cartel</button>
+        <div id="pack${o.id}"></div>
+      `;
+      c.appendChild(card);
+    });
+  } else {
+    c.innerHTML = '<p class="section-note">Every currently available grant, concession, cashback, class action, unclaimed money, government assistance and legitimate free-money opportunity. Official sources only. No applications or claims without your yes.</p>';
+    freeMoney.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <h3>${item.title}</h3>
+        <div class="meta">${item.summary}</div>
+        <div class="meta"><strong>First step:</strong> ${item.first}</div>
+        <a class="link" href="${item.link}" target="_blank">Official source →</a>
+      `;
+      c.appendChild(card);
+    });
+  }
 }
 
 function launch(id) {
-  const o = opps.find(x => x.id === id);
+  const o = businesses.find(x => x.id === id);
   const pack = document.getElementById('pack'+id);
   pack.innerHTML = `<div class="pack"><strong>MARKETING CARTEL LAUNCH PACK</strong>
 
 Offer: ${o.summary}
-Target: Perth / WA trades
-Site: Home + instant quote + AI chat · Services · Proof · About
-SEO: Local keywords + GMB + content engine
-Ads: Search campaigns $20-50/day test
-Social: Instagram / Facebook / TikTok via Buffer, 3-5 posts/week
-Checklist: Domain → site → tracking → ads → posts → reviews
+Target: Perth / WA trades & commercial
+Site structure: Home (instant quote + AI chat) · Services · Proof · About · Contact
+SEO: Local keywords + Google Business Profile + content engine
+Ads: Search campaigns on high-intent terms, $20-50/day test
+Social: Instagram + Facebook + TikTok via Buffer, 3-5 posts/week
+Launch checklist: Domain → site live → tracking → first ads → first posts → review funnel
 KPIs: Leads/week · cost per lead · monthly profit
 Shared assets: ${o.shared}
 
-READY FOR BUILD — nothing live until you confirm.</div>`;
+READY FOR BUILD — nothing live, no money spent, no posts published until you confirm.</div>`;
 }
 
 document.querySelectorAll('.tab').forEach(t => {
@@ -103,7 +127,7 @@ document.querySelectorAll('.tab').forEach(t => {
     render(t.dataset.tab);
   };
 });
-render('brief');
+render('businesses');
 </script>
 </body>
 </html>
